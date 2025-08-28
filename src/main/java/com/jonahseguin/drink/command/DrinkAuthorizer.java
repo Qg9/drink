@@ -1,7 +1,5 @@
 package com.jonahseguin.drink.command;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 

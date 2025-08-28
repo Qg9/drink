@@ -4,8 +4,6 @@ import com.google.common.collect.Lists;
 import com.jonahseguin.drink.argument.CommandArg;
 import com.jonahseguin.drink.exception.CommandExitMessage;
 import com.jonahseguin.drink.parametric.DrinkProvider;
-import org.apache.commons.lang.StringUtils;
-import org.bukkit.command.CommandSender;
 
 import javax.annotation.Nonnull;
 import java.lang.annotation.Annotation;

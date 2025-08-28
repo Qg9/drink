@@ -1,7 +1,6 @@
 package com.jonahseguin.drink.parametric;
 
 import com.google.common.base.Preconditions;
-import lombok.Getter;
 
 import javax.annotation.Nonnull;
 import java.lang.annotation.Annotation;

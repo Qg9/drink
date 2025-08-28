@@ -5,7 +5,6 @@ import com.jonahseguin.drink.exception.MissingProviderException;
 import com.jonahseguin.drink.parametric.CommandParameter;
 import com.jonahseguin.drink.parametric.CommandParameters;
 import com.jonahseguin.drink.parametric.DrinkProvider;
-import lombok.Getter;
 
 import java.lang.reflect.Method;
 import java.util.Set;

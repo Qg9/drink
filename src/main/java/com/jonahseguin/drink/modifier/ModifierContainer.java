@@ -1,7 +1,5 @@
 package com.jonahseguin.drink.modifier;
 
-import lombok.Getter;
-
 import javax.annotation.Nullable;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;

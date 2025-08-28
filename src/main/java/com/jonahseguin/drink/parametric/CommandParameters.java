@@ -1,7 +1,5 @@
 package com.jonahseguin.drink.parametric;
 
-import lombok.Getter;
-
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 

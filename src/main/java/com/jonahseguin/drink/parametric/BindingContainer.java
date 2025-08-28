@@ -1,7 +1,5 @@
 package com.jonahseguin.drink.parametric;
 
-import lombok.Getter;
-
 import java.util.HashSet;
 import java.util.Set;
 

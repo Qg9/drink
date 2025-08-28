@@ -2,7 +2,6 @@ package com.jonahseguin.drink.parametric;
 
 import com.google.common.collect.ImmutableList;
 import com.jonahseguin.drink.annotation.*;
-import lombok.Getter;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Parameter;

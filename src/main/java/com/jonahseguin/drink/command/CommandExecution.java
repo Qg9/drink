@@ -1,7 +1,6 @@
 package com.jonahseguin.drink.command;
 
 import com.jonahseguin.drink.argument.CommandArgs;
-import lombok.Getter;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
