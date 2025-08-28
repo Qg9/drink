@@ -1,7 +1,8 @@
 package com.jonahseguin.drink.command;
 
 import com.google.common.base.Preconditions;
-import org.apache.commons.lang.StringUtils;
+import com.jonahseguin.drink.qg.ConfigMessage;
+import com.sun.tools.javac.util.StringUtils;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -11,6 +12,8 @@ import org.bukkit.plugin.Plugin;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
+
+import static com.jonahseguin.drink.command.DrinkCommandService.join;
 
 public class DrinkCommandContainer extends Command implements PluginIdentifiableCommand {
 
@@ -25,7 +28,8 @@ public class DrinkCommandContainer extends Command implements PluginIdentifiable
     private boolean overrideExistingCommands = true;
     private boolean defaultCommandIsHelp = false;
 
-    public DrinkCommandContainer(DrinkCommandService commandService, Object object, String name, Set<String> aliases, Map<String, DrinkCommand> commands) {
+    public DrinkCommandContainer(DrinkCommandService commandService, Object object, String name, Set<String> aliases,
+                                 Map<String, DrinkCommand> commands, ConfigMessage message) {
         super(name, "", "/" + name, new ArrayList<>(aliases));
         this.commandService = commandService;
         this.object = object;
@@ -33,7 +37,7 @@ public class DrinkCommandContainer extends Command implements PluginIdentifiable
         this.aliases = aliases;
         this.commands = commands;
         this.defaultCommand = calculateDefaultCommand();
-        this.executor = new DrinkCommandExecutor(commandService, this);
+        this.executor = new DrinkCommandExecutor(commandService, this, message);
         this.tabCompleter = new DrinkTabCompleter(commandService, this);
         if (defaultCommand != null) {
             setUsage("/" + name + " " + defaultCommand.getGeneratedUsage());
@@ -61,6 +65,8 @@ public class DrinkCommandContainer extends Command implements PluginIdentifiable
         }
         return suggestions;
     }
+
+
 
     private DrinkCommand calculateDefaultCommand() {
         for (DrinkCommand dc : commands.values()) {
@@ -101,7 +107,8 @@ public class DrinkCommandContainer extends Command implements PluginIdentifiable
     @Nullable
     public Map.Entry<DrinkCommand, String[]> getCommand(String[] args) {
         for (int i = (args.length - 1); i >= 0; i--) {
-            String key = commandService.getCommandKey(StringUtils.join(Arrays.asList(Arrays.copyOfRange(args, 0, i + 1)), ' '));
+            String key = commandService.getCommandKey(join(Arrays.asList(
+                    Arrays.copyOfRange(args, 0, i + 1)), " "));
             DrinkCommand drinkCommand = getByKeyOrAlias(key);
             if (drinkCommand != null) {
                 return new AbstractMap.SimpleEntry<>(drinkCommand, Arrays.copyOfRange(args, i + 1, args.length));

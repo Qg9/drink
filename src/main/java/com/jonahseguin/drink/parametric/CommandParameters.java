@@ -5,7 +5,6 @@ import lombok.Getter;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 
-@Getter
 public class CommandParameters {
 
     private final int count;
@@ -38,4 +37,11 @@ public class CommandParameters {
         return true;
     }
 
+    public int getCount() {
+        return count;
+    }
+
+    public CommandParameter[] getParameters() {
+        return parameters;
+    }
 }

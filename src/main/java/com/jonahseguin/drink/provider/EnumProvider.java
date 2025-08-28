@@ -12,6 +12,8 @@ import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import static com.jonahseguin.drink.command.DrinkCommandService.join;
+
 public class EnumProvider<T extends Enum<T>> extends DrinkProvider<T> {
 
     private static final Pattern NON_ALPHANUMERIC = Pattern.compile("[^A-Za-z0-9]");
@@ -41,7 +43,8 @@ public class EnumProvider<T extends Enum<T>> extends DrinkProvider<T> {
                 return entry;
             }
         }
-        throw new CommandExitMessage("No matching value found for " + argumentDescription() + ".  Available values: " + StringUtils.join(getSuggestions(arg.getSender(),""), ' '));
+        throw new CommandExitMessage("No matching value found for " + argumentDescription() + ".  Available values: " +
+                join(getSuggestions(arg.getSender(),""), " "));
     }
 
     @Override

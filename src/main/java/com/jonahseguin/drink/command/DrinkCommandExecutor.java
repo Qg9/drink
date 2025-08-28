@@ -1,5 +1,6 @@
 package com.jonahseguin.drink.command;
 
+import com.jonahseguin.drink.qg.ConfigMessage;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,10 +12,12 @@ public class DrinkCommandExecutor implements CommandExecutor {
 
     private final DrinkCommandService commandService;
     private final DrinkCommandContainer container;
+    private final ConfigMessage message;
 
-    public DrinkCommandExecutor(DrinkCommandService commandService, DrinkCommandContainer container) {
+    public DrinkCommandExecutor(DrinkCommandService commandService, DrinkCommandContainer container, ConfigMessage message) {
         this.commandService = commandService;
         this.container = container;
+        this.message = message;
     }
 
     @Override
@@ -38,14 +41,17 @@ public class DrinkCommandExecutor implements CommandExecutor {
                             commandService.getHelpService().sendHelpFor(sender, container);
                             return true;
                         }
-                        sender.sendMessage(ChatColor.RED + "Unknown sub-command: " + args[0] + ".  Use '/" + label + " help' for available commands.");
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                                message.getUnknowsub()
+                        ));
                     } else {
                         if (container.isDefaultCommandIsHelp()) {
                             commandService.getHelpService().sendHelpFor(sender, container);
                         }
                         else {
-                            sender.sendMessage(ChatColor.RED + "Please choose a sub-command.  Use '/" + label + " help' for available commands.");
-                        }
+                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                                    message.getUnknowsub()
+                            ));                        }
                     }
                 }
                 return true;

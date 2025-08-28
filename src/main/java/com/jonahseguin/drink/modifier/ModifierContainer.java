@@ -7,7 +7,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-@Getter
 public class ModifierContainer {
 
     private final ConcurrentMap<Class<?>, Set<DrinkModifier<?>>> modifiers = new ConcurrentHashMap<>();
@@ -25,4 +24,7 @@ public class ModifierContainer {
         return null;
     }
 
+    public ConcurrentMap<Class<?>, Set<DrinkModifier<?>>> getModifiers() {
+        return modifiers;
+    }
 }

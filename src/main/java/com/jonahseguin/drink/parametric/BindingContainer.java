@@ -5,7 +5,6 @@ import lombok.Getter;
 import java.util.HashSet;
 import java.util.Set;
 
-@Getter
 public class BindingContainer<T> {
 
     private final Class<T> type;
@@ -21,4 +20,11 @@ public class BindingContainer<T> {
         this.bindings = bindings;
     }
 
+    public Class<T> getType() {
+        return type;
+    }
+
+    public Set<DrinkBinding<T>> getBindings() {
+        return bindings;
+    }
 }

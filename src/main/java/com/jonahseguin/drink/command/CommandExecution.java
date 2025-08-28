@@ -6,7 +6,6 @@ import org.bukkit.command.CommandSender;
 
 import java.util.List;
 
-@Getter
 public class CommandExecution {
 
     private final DrinkCommandService commandService;
@@ -28,4 +27,27 @@ public class CommandExecution {
         canExecute = false;
     }
 
+    public boolean isCanExecute() {
+        return canExecute;
+    }
+
+    public DrinkCommand getCommand() {
+        return command;
+    }
+
+    public CommandArgs getCommandArgs() {
+        return commandArgs;
+    }
+
+    public List<String> getArgs() {
+        return args;
+    }
+
+    public CommandSender getSender() {
+        return sender;
+    }
+
+    public DrinkCommandService getCommandService() {
+        return commandService;
+    }
 }

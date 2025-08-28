@@ -1,13 +1,14 @@
-package com.jonahseguin.drink.command;
+package com.jonahseguin.drink.qg.service;
 
+import com.jonahseguin.drink.command.DrinkCommand;
+import com.jonahseguin.drink.command.DrinkCommandContainer;
+import com.jonahseguin.drink.command.DrinkCommandService;
+import com.jonahseguin.drink.command.HelpFormatter;
 import com.jonahseguin.drink.qg.ConfigMessage;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
-public class DrinkHelpService8 {
+public class DrinkHelpService8 implements HelpService {
 
     private final DrinkCommandService commandService;
     private final ConfigMessage message;

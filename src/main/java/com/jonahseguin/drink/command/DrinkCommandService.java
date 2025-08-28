@@ -20,8 +20,11 @@ import com.jonahseguin.drink.provider.spigot.CommandSenderProvider;
 import com.jonahseguin.drink.provider.spigot.ConsoleCommandSenderProvider;
 import com.jonahseguin.drink.provider.spigot.PlayerProvider;
 import com.jonahseguin.drink.provider.spigot.PlayerSenderProvider;
-import lombok.Getter;
-import org.apache.commons.lang.StringUtils;
+import com.jonahseguin.drink.qg.ConfigMessage;
+import com.jonahseguin.drink.qg.HelperVersion;
+import com.jonahseguin.drink.qg.service.DrinkHelpService21;
+import com.jonahseguin.drink.qg.service.DrinkHelpService8;
+import com.jonahseguin.drink.qg.service.HelpService;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -36,14 +39,13 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-@Getter
 public class DrinkCommandService implements CommandService {
 
     public static String DEFAULT_KEY = "DRINK_DEFAULT";
 
     private final JavaPlugin plugin;
     private final CommandExtractor extractor;
-    private final DrinkHelpService helpService;
+    private final HelpService helpService;
     private final ProviderAssigner providerAssigner;
     private final ArgumentParser argumentParser;
     private final ModifierService modifierService;
@@ -51,13 +53,19 @@ public class DrinkCommandService implements CommandService {
     private final FlagExtractor flagExtractor;
     private DrinkAuthorizer authorizer;
 
+    private ConfigMessage message;
+
     private final ConcurrentMap<String, DrinkCommandContainer> commands = new ConcurrentHashMap<>();
     private final ConcurrentMap<Class<?>, BindingContainer<?>> bindings = new ConcurrentHashMap<>();
 
-    public DrinkCommandService(JavaPlugin plugin) {
+    public DrinkCommandService(JavaPlugin plugin, HelperVersion version, ConfigMessage message) {
         this.plugin = plugin;
+
+        this.message = message;
+
         this.extractor = new CommandExtractor(this);
-        this.helpService = new DrinkHelpService(this);
+        this.helpService = version == HelperVersion.V21 ? new DrinkHelpService21(this, message) :
+                new DrinkHelpService8(this, message);
         this.providerAssigner = new ProviderAssigner(this);
         this.argumentParser = new ArgumentParser(this);
         this.modifierService = new ModifierService(this);
@@ -118,7 +126,7 @@ public class DrinkCommandService implements CommandService {
             if (extractCommands.isEmpty()) {
                 throw new CommandRegistrationException("There were no commands to register in the " + handler.getClass().getSimpleName() + " class (" + extractCommands.size() + ")");
             }
-            DrinkCommandContainer container = new DrinkCommandContainer(this, handler, name, aliasesSet, extractCommands);
+            DrinkCommandContainer container = new DrinkCommandContainer(this, handler, name, aliasesSet, extractCommands, message);
             commands.put(getCommandKey(name), container);
             return container;
         } catch (MissingProviderException | CommandStructureException ex) {
@@ -173,7 +181,8 @@ public class DrinkCommandService implements CommandService {
                 command.getMethod().invoke(command.getHandler(), parsedArguments);
             } catch (IllegalAccessException | InvocationTargetException ex) {
                 sender.sendMessage(ChatColor.RED + "Could not perform command.  Notify an administrator");
-                throw new DrinkException("Failed to execute command '" + command.getName() + "' with arguments '" + StringUtils.join(Arrays.asList(args), ' ') + " for sender " + sender.getName(), ex);
+                throw new DrinkException("Failed to execute command '" + command.getName() + "' with arguments '" +
+                        join(Arrays.asList(args), " ") + " for sender " + sender.getName(), ex);
             }
         }
         catch (CommandExitMessage ex) {
@@ -225,6 +234,14 @@ public class DrinkCommandService implements CommandService {
         return new DrinkBinder<>(this, type);
     }
 
+    public static String join(List<String> str, String joiner) {
+        StringBuilder builder = new StringBuilder();
+        for (String s : str) {
+            builder.append(s).append(joiner);
+        }
+        return builder.toString();
+    }
+
     public <T> void bindProvider(@Nonnull Class<T> type, @Nonnull Set<Class<? extends Annotation>> annotations, @Nonnull DrinkProvider<T> provider) {
         Preconditions.checkNotNull(type, "Type cannot be null");
         Preconditions.checkNotNull(annotations, "Annotations cannot be null");
@@ -238,4 +255,51 @@ public class DrinkCommandService implements CommandService {
         container.getBindings().add(binding);
     }
 
+    public ProviderAssigner getProviderAssigner() {
+        return providerAssigner;
+    }
+
+    public static String getDefaultKey() {
+        return DEFAULT_KEY;
+    }
+
+    public JavaPlugin getPlugin() {
+        return plugin;
+    }
+
+    public CommandExtractor getExtractor() {
+        return extractor;
+    }
+
+    public DrinkHelpService21 getHelpService() {
+        return helpService;
+    }
+
+    public ArgumentParser getArgumentParser() {
+        return argumentParser;
+    }
+
+    public ModifierService getModifierService() {
+        return modifierService;
+    }
+
+    public DrinkSpigotRegistry getSpigotRegistry() {
+        return spigotRegistry;
+    }
+
+    public FlagExtractor getFlagExtractor() {
+        return flagExtractor;
+    }
+
+    public DrinkAuthorizer getAuthorizer() {
+        return authorizer;
+    }
+
+    public ConcurrentMap<String, DrinkCommandContainer> getCommands() {
+        return commands;
+    }
+
+    public ConcurrentMap<Class<?>, BindingContainer<?>> getBindings() {
+        return bindings;
+    }
 }

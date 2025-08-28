@@ -10,7 +10,6 @@ import lombok.Getter;
 import java.lang.reflect.Method;
 import java.util.Set;
 
-@Getter
 public class DrinkCommand {
 
     private final DrinkCommandService commandService;
@@ -50,6 +49,70 @@ public class DrinkCommand {
         if (name.length() > 0 && !name.equals(DrinkCommandService.DEFAULT_KEY)) {
             allAliases.add(name);
         }
+    }
+
+    public DrinkCommandService getCommandService() {
+        return commandService;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Set<String> getAllAliases() {
+        return allAliases;
+    }
+
+    public Set<String> getAliases() {
+        return aliases;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getUsage() {
+        return usage;
+    }
+
+    public String getPermission() {
+        return permission;
+    }
+
+    public Object getHandler() {
+        return handler;
+    }
+
+    public Method getMethod() {
+        return method;
+    }
+
+    public CommandParameters getParameters() {
+        return parameters;
+    }
+
+    public DrinkProvider<?>[] getProviders() {
+        return providers;
+    }
+
+    public DrinkProvider<?>[] getConsumingProviders() {
+        return consumingProviders;
+    }
+
+    public int getConsumingArgCount() {
+        return consumingArgCount;
+    }
+
+    public int getRequiredArgCount() {
+        return requiredArgCount;
+    }
+
+    public boolean isRequiresAsync() {
+        return requiresAsync;
+    }
+
+    public String getGeneratedUsage() {
+        return generatedUsage;
     }
 
     public String getMostApplicableUsage() {

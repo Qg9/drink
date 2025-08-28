@@ -2,6 +2,8 @@ package com.jonahseguin.drink;
 
 import com.google.common.base.Preconditions;
 import com.jonahseguin.drink.command.DrinkCommandService;
+import com.jonahseguin.drink.qg.ConfigMessage;
+import com.jonahseguin.drink.qg.HelperVersion;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.annotation.Nonnull;
@@ -26,9 +28,19 @@ public class Drink extends JavaPlugin {
      * @param javaPlugin {@link Nonnull} your {@link JavaPlugin} instance
      * @return The {@link CommandService} instance
      */
+    public static CommandService get(@Nonnull JavaPlugin javaPlugin, HelperVersion version, ConfigMessage message) {
+        Preconditions.checkNotNull(javaPlugin, "JavaPlugin cannot be null");
+        return services.computeIfAbsent(javaPlugin.getName(), name -> new DrinkCommandService(javaPlugin, version, message));
+    }
+
+    public static CommandService get(@Nonnull JavaPlugin javaPlugin, HelperVersion version) {
+        Preconditions.checkNotNull(javaPlugin, "JavaPlugin cannot be null");
+        return services.computeIfAbsent(javaPlugin.getName(), name -> new DrinkCommandService(javaPlugin, version, new ConfigMessage()));
+    }
+
     public static CommandService get(@Nonnull JavaPlugin javaPlugin) {
         Preconditions.checkNotNull(javaPlugin, "JavaPlugin cannot be null");
-        return services.computeIfAbsent(javaPlugin.getName(), name -> new DrinkCommandService(javaPlugin));
+        return services.computeIfAbsent(javaPlugin.getName(), name -> new DrinkCommandService(javaPlugin, HelperVersion.V8, new ConfigMessage()));
     }
 
     @Override

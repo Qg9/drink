@@ -7,8 +7,6 @@ import org.bukkit.command.CommandSender;
 
 import javax.annotation.Nonnull;
 
-@Getter
-@Setter
 public class DrinkAuthorizer {
 
     private String noPermissionMessage = ChatColor.RED + "You do not have permission to perform this command.";
@@ -23,4 +21,11 @@ public class DrinkAuthorizer {
         return true;
     }
 
+    public String getNoPermissionMessage() {
+        return noPermissionMessage;
+    }
+
+    public void setNoPermissionMessage(String noPermissionMessage) {
+        this.noPermissionMessage = noPermissionMessage;
+    }
 }

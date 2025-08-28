@@ -7,7 +7,6 @@ import javax.annotation.Nonnull;
 import java.lang.annotation.Annotation;
 import java.util.Set;
 
-@Getter
 public class DrinkBinding<T> {
 
     private final Class<T> type;
@@ -36,4 +35,17 @@ public class DrinkBinding<T> {
         return true;
     }
 
+    public Class<T> getType() {
+        return type;
+    }
+
+    public Set<Class<? extends Annotation>> getAnnotations() {
+        return annotations;
+    }
+
+    public DrinkProvider<T> getProvider() {
+        return provider;
+    }
 }
+
+

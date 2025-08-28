@@ -9,7 +9,6 @@ import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
 public class CommandParameter {
 
     private final Class<?> type;
@@ -37,6 +36,30 @@ public class CommandParameter {
             }
         }
         return false;
+    }
+
+    public Class<?> getType() {
+        return type;
+    }
+
+    public Parameter getParameter() {
+        return parameter;
+    }
+
+    public List<Annotation> getAllAnnotations() {
+        return allAnnotations;
+    }
+
+    public List<Annotation> getClassifierAnnotations() {
+        return classifierAnnotations;
+    }
+
+    public List<Annotation> getModifierAnnotations() {
+        return modifierAnnotations;
+    }
+
+    public boolean isRequireLastArg() {
+        return requireLastArg;
     }
 
     public boolean isText() {
