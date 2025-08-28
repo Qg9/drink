@@ -3,7 +3,6 @@ package com.jonahseguin.drink.argument;
 import com.google.common.base.Preconditions;
 import com.jonahseguin.drink.command.CommandFlag;
 import com.jonahseguin.drink.command.DrinkCommandService;
-import lombok.Getter;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -13,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
-@Getter
 public class CommandArgs {
 
     private final DrinkCommandService commandService;
@@ -76,5 +74,35 @@ public class CommandArgs {
     }
 
 
+    public DrinkCommandService getCommandService() {
+        return commandService;
+    }
 
+    public CommandSender getSender() {
+        return sender;
+    }
+
+    public List<String> getArgs() {
+        return args;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public Map<Character, CommandFlag> getFlags() {
+        return flags;
+    }
+
+    public ReentrantLock getLock() {
+        return lock;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
 }

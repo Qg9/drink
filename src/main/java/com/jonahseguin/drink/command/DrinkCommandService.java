@@ -271,7 +271,7 @@ public class DrinkCommandService implements CommandService {
         return extractor;
     }
 
-    public DrinkHelpService21 getHelpService() {
+    public HelpService getHelpService() {
         return helpService;
     }
 
