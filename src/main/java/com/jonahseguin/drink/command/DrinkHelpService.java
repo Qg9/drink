@@ -21,11 +21,10 @@ public class DrinkHelpService {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7&m--------------------------------"));
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bHelp &7- &6/" + container.getName()));
             for (DrinkCommand c : container.getCommands().values()) {
-                TextComponent msg = new TextComponent(net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&',
-                        "&7/" + container.getName() + (c.getName().length() > 0 ? " &e" + c.getName() : "") + " &7" + c.getMostApplicableUsage() + " &7- &f" + c.getShortDescription()));
-                msg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(ChatColor.GRAY + "/" + container.getName() + " " + c.getName() + " - " + ChatColor.WHITE + c.getDescription())));
-                msg.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/" + container.getName() + " " + c.getName()));
-                sender.spigot().sendMessage(msg);
+
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                        "&7/" + container.getName() + (!c.getName().isEmpty() ? " &e" + c.getName() : "") + " &7" + c.getMostApplicableUsage()
+                                + " &7- &f" + c.getShortDescription()));
             }
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7&m--------------------------------"));
         };
@@ -41,10 +40,10 @@ public class DrinkHelpService {
 
     public String getUsageMessage(DrinkCommandContainer container, DrinkCommand command) {
         String usage = ChatColor.RED + "Command Usage: /" + container.getName() + " ";
-        if (command.getName().length() > 0) {
+        if (!command.getName().isEmpty()) {
             usage += command.getName() + " ";
         }
-        if (command.getUsage() != null && command.getUsage().length() > 0) {
+        if (command.getUsage() != null && !command.getUsage().isEmpty()) {
             usage += command.getUsage();
         } else {
             usage += command.getGeneratedUsage();
